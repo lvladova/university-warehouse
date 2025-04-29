@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>University Warehouse - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .sidebar {
+            background-color: #343a40;
+            color: #fff;
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            padding-top: 20px;
+        }
+        .sidebar .nav-link {
+            color: #ced4da;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background-color: #495057;
+        }
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: #0d6efd;
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .logo {
+            text-align: center;
+            padding: 15px 0 30px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #495057;
+        }
+        .logo h4 {
+            color: #fff;
+            margin: 0;
+        }
+        .user-info {
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #495057;
+            margin-top: 20px;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-stats {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .card-stats .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .card-blue {
+            background-color: #007bff;
+            color: white;
+        }
+        .card-green {
+            background-color: #28a745;
+            color: white;
+        }
+        .card-orange {
+            background-color: #fd7e14;
+            color: white;
+        }
+        .card-red {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo">
+        <h4>University Warehouse</h4>
+        <small>Decision Support System</small>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/dashboard}">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+        </li>
+        <li class="nav-item" th:if="${isViceChancellor || isAdmin}">
+            <a class="nav-link" th:href="@{/enrollment-report}">
+                <i class="bi bi-people"></i> Enrollment
+            </a>
+        </li>
+        <li class="nav-item" th:if="${isAcademicHead || isViceChancellor || isAdmin}">
+            <a class="nav-link" th:href="@{/performance-report}">
+                <i class="bi bi-bar-chart"></i> Performance
+            </a>
+        </li>
+        <li class="nav-item" th:if="${isAdmissionsDirector || isViceChancellor || isAdmin}">
+            <a class="nav-link" th:href="@{/admissions-report}">
+                <i class="bi bi-file-earmark-plus"></i> Admissions
+            </a>
+        </li>
+        <li class="nav-item" th:if="${isFinanceDirector || isViceChancellor || isAdmin}">
+            <a class="nav-link" th:href="@{/finance-report}">
+                <i class="bi bi-cash-coin"></i> Finance
+            </a>
+        </li>
+        <li class="nav-item" th:if="${isAdmin}">
+            <a class="nav-link" th:href="@{/etl-management}">
+                <i class="bi bi-gear"></i> ETL Management
+            </a>
+        </li>
+    </ul>
+    <div class="user-info">
+        <p class="mb-1"><i class="bi bi-person-circle"></i> <span th:text="${username}">Username</span></p>
+        <a th:href="@{/logout}" class="btn btn-sm btn-outline-light">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container">
+        <h2 class="mb-4">Dashboard</h2>
+
+        <div class="row mb-4">
+            <div class="col-md-3" th:if="${isViceChancellor || isAdmin}">
+                <div class="card card-stats card-blue">
+                    <div class="icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h5>Total Students</h5>
+                    <h3>15,234</h3>
+                    <p>+5% from last year</p>
+                </div>
+            </div>
+            <div class="col-md-3" th:if="${isAcademicHead || isViceChancellor || isAdmin}">
+                <div class="card card-stats card-green">
+                    <div class="icon">
+                        <i class="bi bi-bar-chart"></i>
+                    </div>
+                    <h5>Average GPA</h5>
+                    <h3>3.45</h3>
+                    <p>+0.2 from last year</p>
+                </div>
+            </div>
+            <div class="col-md-3" th:if="${isAdmissionsDirector || isViceChancellor || isAdmin}">
+                <div class="card card-stats card-orange">
+                    <div class="icon">
+                        <i class="bi bi-file-earmark-plus"></i>
+                    </div>
+                    <h5>Admission Rate</h5>
+                    <h3>72%</h3>
+                    <p>+3% from last year</p>
+                </div>
+            </div>
+            <div class="col-md-3" th:if="${isFinanceDirector || isViceChancellor || isAdmin}">
+                <div class="card card-stats card-red">
+                    <div class="icon">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                    <h5>Revenue</h5>
+                    <h3>$25.6M</h3>
+                    <p>+8% from last year</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4 mb-4">
+            <h4>Welcome to the University Data Warehouse</h4>
+            <p>This dashboard provides decision-makers with insights into university operations. Use the navigation menu to access detailed reports.</p>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card p-3">
+                        <h5>Quick Access</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:if="${isViceChancellor || isAdmin}">
+                                <a th:href="@{/enrollment-report}" class="text-decoration-none">Enrollment Trends (5-Year)</a>
+                            </li>
+                            <li class="list-group-item" th:if="${isAcademicHead || isViceChancellor || isAdmin}">
+                                <a th:href="@{/performance-report}" class="text-decoration-none">Modules with Highest Failure Rates</a>
+                            </li>
+                            <li class="list-group-item" th:if="${isAdmissionsDirector || isViceChancellor || isAdmin}">
+                                <a th:href="@{/admissions-report}" class="text-decoration-none">Admissions Demographics</a>
+                            </li>
+                            <li class="list-group-item" th:if="${isFinanceDirector || isViceChancellor || isAdmin}">
+                                <a th:href="@{/finance-report}" class="text-decoration-none">Scholarship Statistics</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-3">
+                        <h5>System Information</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Last ETL Process: <strong>2023-11-22 02:00 AM</strong></li>
+                            <li class="list-group-item">Data Updated: <strong>Daily at midnight</strong></li>
+                            <li class="list-group-item">Data Source: <strong>Operational University Database</strong></li>
+                            <li class="list-group-item">Total Tables: <strong>15 (8 Dimension, 7 Fact)</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
