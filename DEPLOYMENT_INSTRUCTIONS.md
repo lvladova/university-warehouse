@@ -17,9 +17,9 @@ Before deploying the system, ensure that you have the following:
 
 The system requires three database users with appropriate privileges:
 
-1. **s4108689_OP** - Operational Database
-2. **s4108689_STG** - Staging Database
-3. **s4108689_DW** - Data Warehouse
+1. **s12345_OP** - Operational Database
+2. **s12345_STG** - Staging Database
+3. **s12345_DW** - Data Warehouse
 
 These users have already been created on the university Oracle server with passwords specified in `application.properties`.
 
@@ -29,17 +29,17 @@ Execute the following SQL scripts to create the database tables:
 
 1. For the Operational Database:
    ```bash
-   sqlplus s4108689_OP/s4108689_OP!@oracle.glos.ac.uk:1521/orclpdb.chelt.local @create_tables.sql
+   sqlplus s12345_OP/s12345_OP!@oracle.glos.ac.uk:1521/orclpdb.chelt.local @create_tables.sql
    ```
 
 2. For the Staging Database:
    ```bash
-   sqlplus s4108689_STG/s4108689_STG!@oracle.glos.ac.uk:1521/orclpdb.chelt.local @operational_staging_dw.sql
+   sqlplus s12345_STG/s12345_STG!@oracle.glos.ac.uk:1521/orclpdb.chelt.local @operational_staging_dw.sql
    ```
 
 3. For the Data Warehouse:
    ```bash
-   sqlplus s4108689_DW/s4108689_DW!@oracle.glos.ac.uk:1521/orclpdb.chelt.local @DW_tables_creation.sql
+   sqlplus s12345_DW/s12345_DW!@oracle.glos.ac.uk:1521/orclpdb.chelt.local @DW_tables_creation.sql
    ```
 
 ### Step 3: Create Indexes and Partitions
@@ -55,7 +55,7 @@ sqlplus s4108689_DW/s4108689_DW!@oracle.glos.ac.uk:1521/orclpdb.chelt.local @dw_
 Execute the following SQL script to create stored procedures for the Data Warehouse:
 
 ```bash
-sqlplus s4108689_DW/s4108689_DW!@oracle.glos.ac.uk:1521/orclpdb.chelt.local @dw_stored_procedures.sql
+sqlplus s12345_DW/s12345_DW!@oracle.glos.ac.uk:1521/orclpdb.chelt.local @dw_stored_procedures.sql
 ```
 
 ## Application Deployment
@@ -224,9 +224,9 @@ For additional support, contact the university IT department or the system admin
 
 **Database Login Details:**
 
-- Operational Database: s4108689_OP / s4108689_OP!
-- Staging Database: s4108689_STG / s4108689_STG!
-- Data Warehouse: s4108689_DW / s4108689_DW!
+- Operational Database: s12345_OP / s12345_OP!
+- Staging Database: s4108689_STG / s12345_STG!
+- Data Warehouse: s12345_DW / s12345_DW!
 
 **Application Login Details:**
 
